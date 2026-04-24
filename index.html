@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlikoControl - Twoja Glikemia pod Kontrolą</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: '#4f46e5',
+                        darkbg: '#020617',
+                        darkcard: '#0f172a',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-text { 
+            background: linear-gradient(90deg, #818cf8, #c084fc); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+        }
+        .glow-strong { box-shadow: 0 0 40px rgba(79, 70, 229, 0.4); }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .floating { animation: float 6s ease-in-out infinite; }
+
+        .phone-mockup {
+            border: 10px solid #1e293b;
+            border-radius: 2.5rem;
+            overflow: hidden;
+            background-color: #020617;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        }
+        .phone-mockup::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 35%;
+            height: 20px;
+            background-color: #1e293b;
+            border-bottom-left-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+            z-index: 20;
+        }
+    </style>
+</head>
+<body class="bg-darkbg text-slate-200 antialiased selection:bg-brand selection:text-white overflow-x-hidden">
+
+    <!-- Nawigacja -->
+    <nav class="fixed w-full z-50 bg-darkbg/80 backdrop-blur-md border-b border-slate-800 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <!-- LOGO SVG -->
+                <div class="w-11 h-11 relative">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-xl">
+                        <path d="M80 50C80 66.5685 66.5685 80 50 80C33.4315 80 20 66.5685 20 50C20 33.4315 33.4315 20 50 20" stroke="#818cf8" stroke-width="12" stroke-linecap="round"/>
+                        <path d="M42 52L52 42L68 58" stroke="white" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="80" cy="50" r="7" fill="#fbbf24">
+                            <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite" />
+                        </circle>
+                    </svg>
+                </div>
+                <span class="text-2xl font-extrabold tracking-tight text-white">GlikoControl</span>
+            </div>
+            
+            <div class="hidden lg:flex gap-8 text-xs font-bold uppercase tracking-widest text-slate-400">
+                <a href="#features" class="hover:text-indigo-400 transition-colors">Możliwości</a>
+                <a href="#nightscout" class="hover:text-indigo-400 transition-colors">Nightscout</a>
+                <a href="#pwa" class="hover:text-indigo-400 transition-colors">Instalacja PWA</a>
+                <a href="#changelog" class="hover:text-indigo-400 transition-colors">Aktualizacje</a>
+            </div>
+
+            <a href="https://lukcorp83-glitch.github.io/diab/" target="_blank" class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest transition-all shadow-lg active:scale-95">
+                Uruchom Aplikację
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative pt-40 pb-20 px-6 min-h-screen flex items-center overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10">
+            <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-indigo-600/15 rounded-full blur-[120px]"></div>
+            <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-600/15 rounded-full blur-[120px]"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-16 items-center text-center lg:text-left">
+            <div data-aos="fade-right" data-aos-duration="1000">
+                <div class="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-400 text-[10px] font-black uppercase tracking-[0.2em]">
+                    Aktualizacja: Kwiecień 2026
+                </div>
+                
+                <h1 class="text-5xl lg:text-7xl font-black mb-8 leading-tight tracking-tight text-white">
+                    Pełna synchronizacja z <span class="gradient-text text-nowrap">Nightscout</span>
+                </h1>
+                
+                <p class="text-slate-400 text-lg lg:text-xl mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
+                    Precyzyjny kalkulator bolusa, dane z CGM w czasie rzeczywistym i personalizacja zakresów glikemii. Twój asystent cukrzycy dostępny za darmo.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-5">
+                    <a href="https://lukcorp83-glitch.github.io/diab/" target="_blank" class="flex items-center justify-center bg-indigo-600 hover:bg-indigo-500 text-white px-10 py-5 rounded-full text-sm font-black uppercase tracking-widest transition-all glow-strong active:scale-95 shadow-xl">
+                        Otwórz Aplikację
+                    </a>
+                </div>
+            </div>
+
+            <!-- Phone Mockup -->
+            <div class="relative flex justify-center lg:justify-end mt-12 lg:mt-0" data-aos="zoom-in" data-aos-delay="200">
+                <div class="phone-mockup floating w-full max-w-[320px] aspect-[9/19.5]">
+                    <video autoplay loop muted playsinline poster="Screenshot_20260420-093145.png" class="w-full h-full object-cover">
+                        <source src="YouCut_20260421_212639933.mp4" type="video/mp4">
+                        <img src="https://placehold.co/400x800/0f172a/4f46e5?text=GlikoControl" alt="Podgląd aplikacji">
+                    </video>
+                </div>
+                
+                <!-- Status Card -->
+                <div class="absolute -bottom-6 -left-6 bg-slate-900 border border-slate-800 p-5 rounded-3xl shadow-2xl backdrop-blur-xl hidden md:block">
+                    <div class="flex items-center gap-2 mb-1">
+                        <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                        <p class="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Nightscout</p>
+                    </div>
+                    <p class="text-lg font-bold text-white">Połączono</p>
+                    <p class="text-xs text-slate-500 mt-1 italic leading-none uppercase tracking-widest font-bold">Synchronizacja OK</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Funkcje Section -->
+    <section id="features" class="py-32 bg-darkcard/40 border-y border-slate-800/50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-24" data-aos="fade-up">
+                <h2 class="text-4xl md:text-5xl font-black text-white tracking-tight mb-6">Wszystko w <span class="text-indigo-400 text-nowrap">jednym miejscu</span></h2>
+                <p class="text-slate-400 text-lg max-w-2xl mx-auto font-medium text-center">GlikoControl to zestaw narzędzi wspierający Twoją codzienną terapię.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-24 items-center mb-40">
+                <div class="order-2 lg:order-1" data-aos="fade-right">
+                    <div class="phone-mockup max-w-[280px] mx-auto">
+                        <img src="Screenshot_20260420-093418.png" alt="Talerz" class="w-full h-auto" onerror="this.src='https://placehold.co/400x800/0f172a/818cf8?text=Kalkulator'">
+                    </div>
+                </div>
+                <div class="order-1 lg:order-2">
+                    <div class="space-y-10">
+                        <div class="flex gap-6" data-aos="fade-up">
+                            <div class="w-12 h-12 shrink-0 bg-indigo-500/10 rounded-2xl flex items-center justify-center text-indigo-400 font-bold border border-indigo-500/20 shadow-sm">NS</div>
+                            <div>
+                                <h4 class="text-xl font-bold text-white mb-2 tracking-tight">Integracja z Nightscout</h4>
+                                <p class="text-slate-400 text-sm leading-relaxed font-medium">Odczyty z systemów CGM trafiają bezpośrednio do kalkulatora. Aplikacja automatycznie uwzględnia trend glikemii oraz aktywną insulinę (IOB).</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6" data-aos="fade-up" data-aos-delay="100">
+                            <div class="w-12 h-12 shrink-0 bg-purple-500/10 rounded-2xl flex items-center justify-center text-purple-400 font-bold border border-purple-500/20 shadow-sm">ZR</div>
+                            <div>
+                                <h4 class="text-xl font-bold text-white mb-2 tracking-tight">Personalizacja zakresów</h4>
+                                <p class="text-slate-400 text-sm leading-relaxed font-medium">Dostosuj docelowy zakres glikemii (Target Range) do zaleceń swojego lekarza, aby precyzyjnie monitorować czas w zakresie (TiR).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-24 items-center">
+                <div data-aos="fade-right">
+                    <h3 class="text-3xl font-black text-white mb-6 tracking-tight text-center lg:text-left">Baza produktów i IG</h3>
+                    <p class="text-slate-400 text-lg mb-10 leading-relaxed font-medium text-center lg:text-left">Przejrzysta baza ułatwia planowanie posiłków. System automatycznie wylicza WW i WBT, pomagając w doborze właściwej dawki bolusa.</p>
+                    <div class="grid grid-cols-2 gap-6 text-center font-black max-w-sm mx-auto lg:mx-0">
+                        <div class="p-6 rounded-3xl bg-slate-900/50 border border-slate-800">
+                            <p class="text-2xl text-white mb-1 uppercase tracking-tighter text-indigo-400">IG</p>
+                            <p class="text-[10px] text-slate-500 uppercase tracking-widest leading-none">Indeksy</p>
+                        </div>
+                        <div class="p-6 rounded-3xl bg-slate-900/50 border border-slate-800">
+                            <p class="text-2xl text-white mb-1 uppercase tracking-tighter text-purple-400">BOL</p>
+                            <p class="text-[10px] text-slate-500 uppercase tracking-widest leading-none">Kalkulator</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-center" data-aos="fade-left">
+                    <div class="phone-mockup max-w-[280px] shadow-2xl">
+                        <img src="Screenshot_20260420-093200.png" alt="Baza" class="w-full h-auto" onerror="this.src='https://placehold.co/400x800/0f172a/f97316?text=Baza+IG'">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integracja Nightscout Section -->
+    <section id="nightscout" class="py-32 relative overflow-hidden bg-darkbg border-t border-slate-800/50">
+        <!-- Tło dekoracyjne -->
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-cyan-600/5 blur-[120px] -z-10 pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20" data-aos="fade-up">
+                <div class="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-[10px] font-black uppercase tracking-[0.2em]">
+                    Zarządzanie Danymi
+                </div>
+                <h2 class="text-4xl md:text-5xl font-black text-white tracking-tight mb-6">Konfiguracja <span class="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent text-nowrap">Nightscout</span></h2>
+                <p class="text-slate-400 text-lg max-w-2xl mx-auto font-medium leading-relaxed">Aby aplikacja mogła na bieżąco odczytywać poziom glikemii i uwzględniać go w kalkulatorze, musisz połączyć ją z chmurą lub bezpośrednio z systemem lokalnym. Oto jak to zrobić.</p>
+            </div>
+
+            <!-- KROKI NIGHTSCOUT (CHMURA) -->
+            <div class="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto">
+                <div class="bg-slate-900/40 border border-slate-800 rounded-[2rem] p-8 relative group hover:border-cyan-500/50 transition-all duration-300 flex flex-col" data-aos="fade-up">
+                    <div class="w-14 h-14 bg-cyan-500/10 rounded-2xl flex items-center justify-center border border-cyan-500/20 mb-6 shrink-0">
+                        <span class="text-cyan-400 font-black text-2xl">1</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4 tracking-tight">Utwórz swój Serwer</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed font-medium">
+                        Załóż instancję Nightscout. Możesz to zrobić korzystając z popularnych hostingów (np. <b>Railway, Northflank, T1Pal</b>) lub postawić <b>własny serwer</b>. Upewnij się, że Twój system CGM poprawnie przesyła tam dane.
+                    </p>
+                </div>
+                <div class="bg-slate-900/40 border border-slate-800 rounded-[2rem] p-8 relative group hover:border-cyan-500/50 transition-all duration-300 flex flex-col" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-14 h-14 bg-cyan-500/10 rounded-2xl flex items-center justify-center border border-cyan-500/20 mb-6 shrink-0">
+                        <span class="text-cyan-400 font-black text-2xl">2</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4 tracking-tight">Wygeneruj Token API</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed font-medium">
+                        Zaloguj się do panelu administracyjnego swojego Nightscouta (ikona kłódki/ustawień). Przejdź do sekcji <b>Subjects / Roles</b> (lub API) i utwórz nowy token (Token API), upewniając się, że ma on uprawnienia (<b>readable</b>).
+                    </p>
+                </div>
+                <div class="bg-slate-900/40 border border-slate-800 rounded-[2rem] p-8 relative group hover:border-cyan-500/50 transition-all duration-300 flex flex-col" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-14 h-14 bg-cyan-500/10 rounded-2xl flex items-center justify-center border border-cyan-500/20 mb-6 shrink-0">
+                        <span class="text-cyan-400 font-black text-2xl">3</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4 tracking-tight">Połącz z Aplikacją</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed font-medium">
+                        Uruchom <b>GlikoControl</b>, wejdź w zakładkę <span class="text-white bg-slate-800 px-2 py-0.5 rounded text-xs">Ustawienia</span> i skopiuj w odpowiednie pola: <b>Adres URL</b> Twojego serwera (np. <i>https://moj-cukier.up.railway.app</i>) oraz wygenerowany w poprzednim kroku <b>Token API</b>.
+                    </p>
+                </div>
+            </div>
+
+            <!-- INSTRUKCJE XDRIP+ (W POZIOMIE) -->
+            <div class="mt-8 lg:mt-12 grid lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
+                
+                <!-- INSTRUKCJA XDRIP+ (CHMURA) -->
+                <div class="bg-slate-900/60 border border-slate-800 rounded-[2rem] p-8 md:p-10 relative overflow-hidden group hover:border-cyan-500/50 transition-all duration-300 shadow-xl flex flex-col" data-aos="fade-up">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[80px] -z-10 pointer-events-none"></div>
+                    
+                    <div class="w-16 h-16 bg-blue-500/10 rounded-3xl flex items-center justify-center border border-blue-500/20 mb-6 shrink-0">
+                        <!-- Ikona chmury -->
+                        <svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    </div>
+                    
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 mb-4 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-[10px] font-black uppercase tracking-[0.2em]">Krok dla sensora</div>
+                        <h3 class="text-2xl font-bold text-white mb-3 tracking-tight">Wysyłanie danych do chmury (xDrip+ REST-API)</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed font-medium mb-6">
+                            Aby chmura Nightscout pokazywała aktualne dane, skonfiguruj xDrip+, aby wysyłał wyniki do chmury:
+                        </p>
+                        <ul class="space-y-5 text-sm text-slate-300 font-medium">
+                            <li class="flex items-start gap-3">
+                                <span class="text-cyan-400 font-bold mt-0.5">1.</span>
+                                <span>W xDrip+ wejdź w <b>Ustawienia</b> (Settings) &gt; <b>Cloud Upload</b> &gt; <b>Nightscout Sync (REST-API)</b>.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-cyan-400 font-bold mt-0.5">2.</span>
+                                <div class="w-full">
+                                    <span>Włącz przesyłanie i w polu <b>Base URL</b> wklej link zbudowany według poniższego schematu:</span>
+                                    <div class="mt-3 p-4 bg-[#020617] border border-slate-800 rounded-xl font-mono text-[11px] sm:text-xs text-cyan-400 break-all select-all shadow-inner">
+                                        https://<span class="text-white font-bold">TWOJE_HASLO_API</span>@<span class="text-white font-bold">twoj-adres-nightscout.com</span>/api/v1/
+                                    </div>
+                                    <p class="text-xs text-slate-500 mt-3 leading-relaxed">
+                                        * Zamiast <code class="text-slate-400">TWOJE_HASLO_API</code> wpisz swoje <b>API_SECRET</b> (hasło systemowe podane przy zakładaniu serwera Nightscout, min. 12 znaków), a po znaku @ podaj właściwy adres URL swojej chmury (bez "https://" w środku tekstu). Upewnij się, że link kończy się na <code class="text-slate-400">/api/v1/</code>.
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-cyan-400 font-bold mt-0.5">3.</span>
+                                <span>Zalecane: włącz też opcję <b>Upload Treatments</b> w menu Cloud Upload, aby przesyłać informacje o podanej insulinie i spożytych węglowodanach.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- INSTRUKCJA XDRIP+ (LOKALNIE) -->
+                <div class="bg-slate-900/60 border border-slate-800 rounded-[2rem] p-8 md:p-10 relative overflow-hidden group hover:border-emerald-500/50 transition-all duration-300 shadow-xl flex flex-col" data-aos="fade-up" data-aos-delay="100">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-[80px] -z-10 pointer-events-none"></div>
+
+                    <div class="w-16 h-16 bg-emerald-500/10 rounded-3xl flex items-center justify-center border border-emerald-500/20 mb-6 shrink-0">
+                        <!-- Ikona lokalna (urządzenie/offline) -->
+                        <svg class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
+                    </div>
+                    
+                    <div class="flex-1">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 mb-4 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-[10px] font-black uppercase tracking-[0.2em]">Opcja Alternatywna</div>
+                        <h3 class="text-2xl font-bold text-white mb-3 tracking-tight">Bezpośrednie połączenie lokalne (xDrip+ WWW)</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed font-medium mb-6">
+                            Pobieraj dane na tym samym urządzeniu <b>bez użycia chmury i internetu</b>, włączając serwer lokalny.
+                        </p>
+                        
+                        <ul class="space-y-5 text-sm text-slate-300 font-medium">
+                            <li class="flex items-start gap-3">
+                                <span class="text-emerald-400 font-bold mt-0.5">1.</span>
+                                <span>W xDrip+ wejdź w <b>Ustawienia</b> &gt; <b>Ustawienia międzyaplikacyjne</b> (Inter-app settings).</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-emerald-400 font-bold mt-0.5">2.</span>
+                                <div class="w-full">
+                                    <span>Zaznacz następujące opcje:</span>
+                                    <ul class="mt-3 space-y-2 text-slate-400 text-xs bg-slate-900/50 p-4 rounded-xl border border-slate-800">
+                                        <li><strong class="text-emerald-400">Wysyłaj dane lokalnie</strong> (Broadcast locally) – „rozgłasza” cukier w systemie.</li>
+                                        <li><strong class="text-emerald-400">Włącz serwer WWW / Lokalny serwer</strong> (Local server) – Otwiera port HTTP (kluczowe).</li>
+                                        <li><strong class="text-white">Zidentyfikuj odbiorcę</strong> (Identify receiver) – dla stabilniejszej komunikacji.</li>
+                                        <li><strong class="text-white">Akceptuj komendy/leczenia</strong> (Accept treatments) – zaznacz, jeśli chcesz przesyłać leczenia z GlikoControl.</li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-emerald-400 font-bold mt-0.5">3.</span>
+                                <div class="w-full">
+                                    <span>W aplikacji GlikoControl (Ustawienia) jako Adres Serwera wpisz:</span>
+                                    <div class="mt-2 p-3 bg-[#020617] border border-slate-800 rounded-lg font-mono text-[11px] sm:text-sm text-emerald-400 break-all select-all shadow-inner">
+                                        http://127.0.0.1:17580
+                                    </div>
+                                    <p class="text-xs text-slate-500 mt-2">Pole "Token API" zostaw puste.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Ostrzeżenie Chrome Flags (przesunięte na sam dół karty) -->
+                    <div class="mt-8 pt-6 border-t border-slate-800/80">
+                        <div class="p-5 border border-amber-500/30 bg-amber-500/10 rounded-2xl relative overflow-hidden">
+                            <div class="flex items-start gap-4 relative z-10">
+                                <svg class="w-6 h-6 text-amber-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                <div>
+                                    <h4 class="text-amber-500 font-bold mb-1">Brak danych?</h4>
+                                    <p class="text-xs text-amber-200/70 leading-relaxed mb-3">
+                                        Jeśli aplikacja nie może pobrać danych z adresu <code class="bg-amber-900/50 px-1 rounded text-amber-300">http://</code>, musisz dodać wyjątek w Chrome:
+                                    </p>
+                                    <ol class="list-decimal list-inside text-xs text-amber-200/90 space-y-1.5 ml-1 font-medium">
+                                        <li>Wpisz w Chrome: <code class="select-all text-white font-mono bg-amber-500/20 px-1.5 py-0.5 rounded">chrome://flags</code></li>
+                                        <li>Wyszukaj: <strong class="text-white">Insecure origins treated as secure</strong></li>
+                                        <li>Wklej: <code class="select-all text-white font-mono bg-amber-500/20 px-1.5 py-0.5 rounded">http://127.0.0.1:17580</code></li>
+                                        <li>Przełącz na <strong class="text-white">Enabled</strong> i zrestartuj przeglądarkę.</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Instalacja PWA Section -->
+    <section id="pwa" class="py-32 relative overflow-hidden bg-darkcard/40 border-t border-slate-800/50">
+        <!-- Tło dekoracyjne -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-80 bg-brand/5 blur-[120px] -z-10 rounded-full pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20" data-aos="fade-up">
+                <div class="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-400 text-[10px] font-black uppercase tracking-[0.2em]">
+                    Progresywna Aplikacja Webowa
+                </div>
+                <h2 class="text-4xl md:text-5xl font-black text-white tracking-tight mb-6">Zainstaluj jako <span class="gradient-text text-nowrap">Aplikację</span></h2>
+                <p class="text-slate-400 text-lg max-w-2xl mx-auto font-medium leading-relaxed">GlikoControl to aplikacja PWA. Możesz dodać ją do ekranu głównego swojego telefonu, aby działała szybko, na pełnym ekranie i zachowywała się jak natywna aplikacja.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 max-w-7xl mx-auto">
+                <!-- Karta Android -->
+                <div class="bg-slate-900/60 border border-slate-800 rounded-[2rem] p-8 md:p-10 backdrop-blur-md relative group hover:border-indigo-500/50 transition-all duration-300" data-aos="fade-right">
+                    <div class="w-14 h-14 bg-indigo-500/10 rounded-2xl flex items-center justify-center border border-indigo-500/20 mb-8">
+                        <svg class="w-7 h-7 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2 tracking-tight">Smartfony z Androidem</h3>
+                    <p class="text-slate-400 text-sm font-medium mb-8">Zalecana przeglądarka <b>Google Chrome</b>.</p>
+                    
+                    <ul class="space-y-6 text-slate-300 font-medium text-sm">
+                        <li class="flex items-start gap-4">
+                            <span class="flex-shrink-0 w-7 h-7 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xs font-bold border border-indigo-500/30 mt-0.5">1</span>
+                            <p class="leading-relaxed">Otwórz stronę aplikacji GlikoControl w przeglądarce Chrome na swoim telefonie.</p>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <span class="flex-shrink-0 w-7 h-7 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xs font-bold border border-indigo-500/30 mt-0.5">2</span>
+                            <p class="leading-relaxed">Kliknij ikonę <b>Menu</b> (trzy pionowe kropki) w prawym górnym rogu ekranu.</p>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <span class="flex-shrink-0 w-7 h-7 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xs font-bold border border-indigo-500/30 mt-0.5">3</span>
+                            <p class="leading-relaxed">Z listy opcji wybierz <b>"Zainstaluj aplikację"</b> lub <b>"Dodaj do ekranu głównego"</b>.</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Karta iOS -->
+                <div class="bg-slate-900/60 border border-slate-800 rounded-[2rem] p-8 md:p-10 backdrop-blur-md relative group hover:border-purple-500/50 transition-all duration-300" data-aos="fade-left" data-aos-delay="100">
+                    <div class="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center border border-purple-500/20 mb-8">
+                        <svg class="w-7 h-7 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2 tracking-tight">iPhone oraz iPad (iOS)</h3>
+                    <p class="text-slate-400 text-sm font-medium mb-8">Wymagana systemowa przeglądarka <b>Safari</b>.</p>
+                    
+                    <ul class="space-y-6 text-slate-300 font-medium text-sm">
+                        <li class="flex items-start gap-4">
+                            <span class="flex-shrink-0 w-7 h-7 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center text-xs font-bold border border-purple-500/30 mt-0.5">1</span>
+                            <p class="leading-relaxed">Otwórz stronę aplikacji GlikoControl wyłącznie w przeglądarce <b>Safari</b>.</p>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <span class="flex-shrink-0 w-7 h-7 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center text-xs font-bold border border-purple-500/30 mt-0.5">2</span>
+                            <p class="leading-relaxed">Na dolnym pasku przeglądarki kliknij ikonę <b>Udostępnij</b> (kwadrat ze strzałką w górę).</p>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <span class="flex-shrink-0 w-7 h-7 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center text-xs font-bold border border-purple-500/30 mt-0.5">3</span>
+                            <p class="leading-relaxed">Przewiń menu w dół i kliknij opcję <b>"Do ekranu początk."</b> (Add to Home Screen).</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dziennik Aktualizacji -->
+    <section id="changelog" class="py-32 bg-darkbg border-t border-slate-800/50 max-w-4xl mx-auto px-6">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-4xl font-black text-white tracking-tight mb-4 text-center text-nowrap uppercase">Dziennik Aktualizacji</h2>
+        </div>
+        
+        <div class="space-y-12">
+            <!-- v2.0 Kwiecień -->
+            <article class="relative pl-10 border-l-2 border-indigo-500 pb-12" data-aos="fade-up">
+                <div class="absolute -left-[11px] top-0 w-5 h-5 bg-indigo-500 rounded-full shadow-[0_0_15px_#6366f1] ring-4 ring-darkbg"></div>
+                <div class="flex items-center gap-4 mb-3">
+                    <h3 class="text-3xl font-black text-white tracking-tight leading-none text-center lg:text-left">Wersja v2.0</h3>
+                    <span class="px-3 py-1 bg-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase rounded-full border border-indigo-500/20 leading-none">Aktualna</span>
+                </div>
+                <time class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6 block leading-none">Kwiecień 2026</time>
+                <div class="text-slate-300 font-medium space-y-4 leading-relaxed">
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3"><span class="text-indigo-400 font-bold text-lg leading-none">✦</span> <span><b>Synchronizacja Nightscout:</b> Odczyty CGM i historia insulin pobierane w czasie rzeczywistym bezpośrednio do kalkulatora.</span></li>
+                        <li class="flex items-start gap-3"><span class="text-indigo-400 font-bold text-lg leading-none">✦</span> <span><b>Ustawienia zakresów:</b> Funkcja ręcznego dopasowania docelowego zakresu glikemii (Target Range).</span></li>
+                        <li class="flex items-start gap-3"><span class="text-indigo-400 font-bold text-lg leading-none">✦</span> <span><b>Wsparcie:</b> Uruchomiliśmy e-mail dla użytkowników: <span class="text-indigo-400">GlikoControl@proton.me</span>.</span></li>
+                    </ul>
+                </div>
+            </article>
+
+            <!-- v1.8.4 -->
+            <article class="relative pl-10 border-l-2 border-slate-800 pb-8" data-aos="fade-up">
+                <div class="absolute -left-[9px] top-0 w-4 h-4 bg-slate-700 rounded-full ring-4 ring-darkbg"></div>
+                <h3 class="text-2xl font-black text-slate-400 mb-2 tracking-tight leading-none">Wersja v1.8.4</h3>
+                <time class="text-[10px] font-black text-slate-600 uppercase tracking-widest mb-4 block leading-none">Kwiecień 2026</time>
+                <p class="text-slate-500 text-sm leading-relaxed italic font-medium">Integracja z modelem AI Gemini 3.0 oraz ulepszony interfejs modułu posiłków.</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- STOPKA -->
+    <footer class="bg-darkcard border-t border-slate-800 pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-6">
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+                <!-- Kolumna 1: Logo i opis -->
+                <div class="flex flex-col items-center md:items-start text-center md:text-left">
+                    <div class="flex items-center gap-4 mb-6">
+                        <!-- NOWE LOGO SVG W STOPCE (Solid Color) -->
+                        <div class="w-12 h-12 relative">
+                            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-xl">
+                                <path d="M80 50C80 66.5685 66.5685 80 50 80C33.4315 80 20 66.5685 20 50C20 33.4315 33.4315 20 50 20" stroke="#818cf8" stroke-width="12" stroke-linecap="round"/>
+                                <path d="M42 52L52 42L68 58" stroke="white" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                <circle cx="80" cy="50" r="7" fill="#fbbf24" />
+                            </svg>
+                        </div>
+                        <span class="text-3xl font-black text-white tracking-tighter">GlikoControl</span>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed max-w-xs font-medium">
+                        Twój niezależny asystent glikemii. Precyzyjny kalkulator i pełna integracja z systemami Nightscout w jednym miejscu.
+                    </p>
+                </div>
+
+                <!-- Kolumna 2: Szybkie linki -->
+                <div class="flex flex-col items-center md:items-start text-center md:text-left md:pl-8">
+                    <h4 class="text-white font-bold uppercase tracking-[0.2em] text-xs mb-6">Na skróty</h4>
+                    <ul class="space-y-4 text-sm font-medium text-slate-400">
+                        <li><a href="#features" class="hover:text-indigo-400 transition-colors">Główne Możliwości</a></li>
+                        <li><a href="#nightscout" class="hover:text-indigo-400 transition-colors">Konfiguracja Nightscout</a></li>
+                        <li><a href="#pwa" class="hover:text-indigo-400 transition-colors">Instrukcja instalacji (PWA)</a></li>
+                        <li><a href="#changelog" class="hover:text-indigo-400 transition-colors">Dziennik Zmian (v2.0)</a></li>
+                        <li><a href="https://lukcorp83-glitch.github.io/diab/" target="_blank" class="hover:text-indigo-400 transition-colors text-indigo-400 font-bold">Uruchom Aplikację →</a></li>
+                    </ul>
+                </div>
+
+                <!-- Kolumna 3: Kontakt -->
+                <div class="flex flex-col items-center md:items-start text-center md:text-left">
+                    <h4 class="text-white font-bold uppercase tracking-[0.2em] text-xs mb-6">Wsparcie</h4>
+                    <p class="text-slate-400 text-sm mb-4 font-medium">Masz pytania lub propozycje nowej funkcji?</p>
+                    <a href="mailto:GlikoControl@proton.me" class="inline-flex items-center gap-3 bg-slate-900 border border-slate-700 hover:border-indigo-500 text-white px-6 py-3.5 rounded-full text-xs font-bold transition-all shadow-lg active:scale-95">
+                        <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        GlikoControl@proton.me
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dolny pasek (Nota prawna) -->
+            <div class="border-t border-slate-800/60 pt-8 flex flex-col items-center">
+                <p class="text-[10px] font-bold text-slate-500 leading-relaxed uppercase tracking-widest mb-4 max-w-3xl text-center px-4">
+                    GlikoControl to niezależny projekt hobbystyczny stworzony z pasji. Aplikacja ma charakter pomocniczy i edukacyjny. O dawkowaniu insuliny decyduj wyłącznie na podstawie własnego doświadczenia oraz zaleceń lekarza prowadzącego.
+                </p>
+                <p class="text-[10px] font-black text-slate-700 uppercase tracking-[0.4em]">&copy; 2026 GlikoControl Project</p>
+            </div>
+            
+        </div>
+    </footer>
+
+    <!-- Skrypty -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, duration: 800 });
+        
+        const nav = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 40) {
+                nav.classList.add('shadow-2xl', 'bg-darkbg/95', 'h-16');
+                nav.classList.remove('h-20');
+            } else {
+                nav.classList.remove('shadow-2xl', 'bg-darkbg/95', 'h-16');
+                nav.classList.add('h-20');
+            }
+        });
+    </script>
+</body>
+</html>
