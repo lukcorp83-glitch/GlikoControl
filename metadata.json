@@ -1,0 +1,6 @@
+{
+  "name": "GlikoControl Showcase",
+  "description": "Projekt hobbistyczny GlikoControl - zaawansowany system wspomagania kontroli glikemii z integracją Nightscout, GlikoSens i analizą AI Gemini.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
